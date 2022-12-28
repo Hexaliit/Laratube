@@ -1,0 +1,97 @@
+<template>
+    <!--==================== HEADER ====================-->
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header_logo " >
+            <i class="header_collapse-btn fas fa-align-left"></i>
+            <img class="logo_img" :src="ourImage(user.photo)" />
+        </div>
+        <div class="header_search">
+            <i class="header_search-icon fas fa-search"></i>
+            <input class="header_search-input" type="text" placeholder="Search"/>
+        </div>
+        <div class="header_profile " @click="openNavHeader">
+            <div class="header_profile-imgWrapper ">
+                <img class="header_profile-img" src="assets/img/avatar.jpg" alt=""/>
+            </div>
+            <p class="header_profile-name">
+                {{this.user.name}}
+            </p>
+
+        </div>
+        <div class="nav__btns" >
+            <!--====== THEME CHANGE BUTTON ======-->
+            <i class="uil uil-moon change-theme" id="theme-button"></i>
+
+            <div class="nav__toggle" id="nav-toggle">
+                <i class="uil uil-apps "></i>
+            </div>
+        </div>
+    </header>
+    <!-- End Header -->
+
+    <!-- Header Profile -->
+    <div>
+            <span class="header_profile-name--nav" :class="{show:showNavHeader}">
+                <span class="header_profile-name--nav--pointer">
+                    <i class="fas fa-sort-up"></i>
+                </span>
+                <ul class="header_profile-name--nav--list">
+                    <li class="header_profile-name--nav--item">
+                        <router-link class="header_profile-name--nav--link" to="/admin/users/profile">
+                            Profile
+                        </router-link>
+                    </li>
+                    <li class="header_profile-name--nav--item">
+                        <a class="header_profile-name--nav--link" href="#">
+                            Message
+                        </a>
+                    </li>
+                    <li class="header_profile-name--nav--item">
+                        <a class="header_profile-name--nav--link" href="#" @click="logout">
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </span>
+    </div>
+    <!-- End Profile Header -->
+</template>
+
+<script>
+    export default {
+        name: "Header",
+        data : function () {
+            return {
+                showNavHeader : false,
+                user : {},
+                authenticatedUser : ''
+            }
+        } ,
+        methods : {
+            openNavHeader : function(){
+                this.showNavHeader = !this.showNavHeader;
+            },
+            logout : function () {
+                localStorage.removeItem('token');
+                this.$router.push('/');
+            },
+            ourImage : function (img) {
+                return "/img/upload/"+img;
+            },
+            getUser : function () {
+                axios.get('/api/user')
+                    .then(response => {
+                        this.user = response.data.user;
+                    })
+            }
+        },
+        mounted() {
+            this.getUser();
+        },
+    }
+</script>
+
+<style scoped>
+
+</style>
