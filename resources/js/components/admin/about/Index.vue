@@ -146,7 +146,7 @@
                 if(file['size'] > limit) {
                     swal ({
                         icon : 'error',
-                        title : 'Oooops . . .',
+                        title : 'Oooops . . .  Sorry',
                         text : 'You are uploading a large file',
                     })
                     return false;
